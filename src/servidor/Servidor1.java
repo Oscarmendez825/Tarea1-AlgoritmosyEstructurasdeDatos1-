@@ -12,10 +12,12 @@ Lenguaje: Java
 IDE: NetBeans 8.2*/
 
 
+import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 import javax.swing.JOptionPane;
 
 
@@ -29,7 +31,8 @@ public class Servidor1 extends javax.swing.JFrame {
     //si es cliente o servidor
     String Nombre = JOptionPane.showInputDialog("Digite su Nombre: ");
     AsignarIpNombre Nombre1 = new AsignarIpNombre(Nombre);
-    UsuarioClienteServidor1 tipo = new UsuarioClienteServidor1();
+    UsuarioServidor tipo = new UsuarioServidor();
+
     //Variable del tipo string que almacena el chat
     static String historial = "";
     
@@ -38,6 +41,7 @@ public class Servidor1 extends javax.swing.JFrame {
         tipo.TipodeUsuario();//Llamada a la clase que indica si es Cliente o Servidor
         cuadropantalla.setEditable(false);//Aqui se restringe el no poder editar el cuadro en el que se desplegan los mensajes
         JOptionPane.showMessageDialog(null, "Usuario correctamente guardado.\nBienvenido: "+Nombre1.getNombre());//Despliega una ventana con mensaje de buen inicio
+
     }
 
 
@@ -81,6 +85,11 @@ public class Servidor1 extends javax.swing.JFrame {
                 cuadromensajeActionPerformed(evt);
             }
         });
+        cuadromensaje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cuadromensajeKeyTyped(evt);
+            }
+        });
         getContentPane().add(cuadromensaje);
         cuadromensaje.setBounds(20, 390, 650, 120);
 
@@ -108,6 +117,7 @@ public class Servidor1 extends javax.swing.JFrame {
 
     private void botonenviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonenviarActionPerformed
         //ENVIO DEL MENSAJE AL CLIENTE
+
         
         try{
             String mensajesalida = "";//Declaracion de la variable que almacena el mensaje que será enviado
@@ -116,7 +126,7 @@ public class Servidor1 extends javax.swing.JFrame {
             historial+="Me: " + mensajesalida+"\n";//Se almacena el mensaje tambien en el historial
             cuadropantalla.setText(historial);//Muestro en pantalla el mensaje que envié
             datossalida.writeUTF(Nombre1.getNombre()+": "+mensajesalida);//se envia el mensaje del server al cliente codificado
-            
+
         }catch (Exception e){
 
         }
@@ -125,6 +135,13 @@ public class Servidor1 extends javax.swing.JFrame {
     private void cuadromensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadromensajeActionPerformed
         
     }//GEN-LAST:event_cuadromensajeActionPerformed
+
+    private void cuadromensajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cuadromensajeKeyTyped
+        char teclaenter = evt.getKeyChar();
+        if (teclaenter==KeyEvent.VK_ENTER){
+            botonenviar.doClick();
+        }
+    }//GEN-LAST:event_cuadromensajeKeyTyped
 
 
     public static void main(String args[]) {

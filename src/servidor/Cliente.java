@@ -11,6 +11,7 @@ Versión: 1.1
 Lenguaje: Java
 IDE: NetBeans 8.2*/
 
+import java.awt.event.KeyEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
@@ -28,7 +29,7 @@ public class Cliente extends javax.swing.JFrame {
     static String ip = JOptionPane.showInputDialog("Digite la ip del servidor: \n Si desea ejecutar todo desde una misma pc por favor digite 0: ");//Variable estatica que permite pasar como parametro la ip a la clase Usuario
     AsignarIpNombre Nombre1 = new AsignarIpNombre(Nombre);//Creo un objeto de la clase AsignarIpNombre y le paso el nombre
     AsignarIpNombre direccion = new AsignarIpNombre(Nombre,ip);//Creo un objeto de la clase AsignarIpNombre y le paso el nombre junto con la Ip
-    UsuarioClienteServidor2 tipo = new UsuarioClienteServidor2();//Objeto de la clase TipodeUsuario que indica si el inicializado es cliente o servidor
+    UsuarioCliente tipo = new UsuarioCliente();//Objeto de la clase TipodeUsuario que indica si el inicializado es cliente o servidor
     //Variable del tipo string que almacena el chat
     static String historial = "";
     
@@ -72,6 +73,12 @@ public class Cliente extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(10, 50, 900, 250);
+
+        cuadromensaje.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                cuadromensajeKeyTyped(evt);
+            }
+        });
         getContentPane().add(cuadromensaje);
         cuadromensaje.setBounds(20, 370, 650, 130);
 
@@ -115,6 +122,13 @@ public class Cliente extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_botonenviarActionPerformed
+
+    private void cuadromensajeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cuadromensajeKeyTyped
+        char teclaenter = evt.getKeyChar();
+        if (teclaenter==KeyEvent.VK_ENTER){
+            botonenviar.doClick();
+        }
+    }//GEN-LAST:event_cuadromensajeKeyTyped
 
 
     public static void main(String args[]) {
