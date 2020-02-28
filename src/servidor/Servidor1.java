@@ -1,6 +1,15 @@
 
 package servidor;
+/*INSTIUTO TECNOLÓGICO DE COSTA RICA
+Área Académica Ingeniería en Computadores
+I Semestre 2020/Algoritmos y Estructura de Datos I
+Tarea Extraclase 1
 
+Estudiante: Oscar Méndez Granados
+Carné: 2019150432
+Versión: 1.1
+Lenguaje: Java
+IDE: NetBeans 8.2*/
 
 
 import java.io.DataInputStream;
@@ -16,16 +25,19 @@ public class Servidor1 extends javax.swing.JFrame {
     static Socket puerto2;
     static DataInputStream datosentrada;
     static DataOutputStream datossalida;
-    //Creacion de atributos y objetos para llamar a clase usuario y para indicar cuales el tipo de usuario inicializado
+    //Creacion de variables y objetos para llamar a clase usuario y para indicar cuales el tipo de usuario inicializado
     //si es cliente o servidor
     String Nombre = JOptionPane.showInputDialog("Digite su Nombre: ");
     AsignarIpNombre Nombre1 = new AsignarIpNombre(Nombre);
     UsuarioClienteServidor1 tipo = new UsuarioClienteServidor1();
-    
+    //Variable del tipo string que almacena el chat
+    static String historial = "";
     
     public Servidor1() {
         initComponents();
         tipo.TipodeUsuario();//Llamada a la clase que indica si es Cliente o Servidor
+        cuadropantalla.setEditable(false);//Aqui se restringe el no poder editar el cuadro en el que se desplegan los mensajes
+        JOptionPane.showMessageDialog(null, "Usuario correctamente guardado.\nBienvenido: "+Nombre1.getNombre());//Despliega una ventana con mensaje de buen inicio
     }
 
 
@@ -43,6 +55,8 @@ public class Servidor1 extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(200, 150));
+        setMaximumSize(new java.awt.Dimension(935, 570));
         setMinimumSize(new java.awt.Dimension(935, 570));
         getContentPane().setLayout(null);
 
@@ -94,12 +108,14 @@ public class Servidor1 extends javax.swing.JFrame {
 
     private void botonenviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonenviarActionPerformed
         //ENVIO DEL MENSAJE AL CLIENTE
+        
         try{
-            String mensajesalida = "";
-            mensajesalida = cuadromensaje.getText().trim();
-            cuadromensaje.setText("");
-            cuadropantalla.setText("Me: " + mensajesalida);//Desplego en pantalla el mensaje que voy a enviar
-            datossalida.writeUTF(Nombre1.getNombre()+": "+mensajesalida);//se envia el mensaje del server al cliente
+            String mensajesalida = "";//Declaracion de la variable que almacena el mensaje que será enviado
+            mensajesalida = cuadromensaje.getText().trim();//Se toma el texto ingresado para almacenarlo en mensaje salida
+            cuadromensaje.setText("");//Se reinicia el contenido del cuadro en el que se escribe mensaje
+            historial+="Me: " + mensajesalida+"\n";//Se almacena el mensaje tambien en el historial
+            cuadropantalla.setText(historial);//Muestro en pantalla el mensaje que envié
+            datossalida.writeUTF(Nombre1.getNombre()+": "+mensajesalida);//se envia el mensaje del server al cliente codificado
             
         }catch (Exception e){
 
@@ -107,18 +123,13 @@ public class Servidor1 extends javax.swing.JFrame {
     }//GEN-LAST:event_botonenviarActionPerformed
 
     private void cuadromensajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadromensajeActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_cuadromensajeActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+
+
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -135,28 +146,28 @@ public class Servidor1 extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Servidor1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
+
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Servidor1().setVisible(true);
             }
         });
-        String mensaje = "";
+        String mensaje = "";//Declaracion de la variable en la que se va a almacenar el mensaje
         try{
             puerto1 = new ServerSocket(1201);//el server se inicializa en el puerto 1201
             puerto2 = puerto1.accept();//Se le dice al server que acepte la conexion
-            
+            //Puerto por donde entran y salen los datos
             datosentrada = new DataInputStream(puerto2.getInputStream());
             datossalida = new DataOutputStream(puerto2.getOutputStream());
             
             while(!mensaje.equals("exit")){
-                mensaje = datosentrada.readUTF();
-                
-
+                mensaje = datosentrada.readUTF();//Lee y decodifica el mensaje que le ha sido enviado
                 cuadropantalla.setText("\n");
-                cuadropantalla.setText(cuadropantalla.getText().trim()+mensaje);//Desplegar o imprimir el mensaje en pantalla del cliente
+                historial += (cuadropantalla.getText().trim()+mensaje);//Se almacena el mensaje recibido en el historial
+                historial+="\n";
+                cuadropantalla.setText(historial);//Se muestra el mensaje recibido en pantalla
                 
             }
         
