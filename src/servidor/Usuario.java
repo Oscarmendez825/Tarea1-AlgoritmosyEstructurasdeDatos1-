@@ -1,10 +1,15 @@
 
 package servidor;
 
-
-public class Usuario {
+public class Usuario{
     private String nombre;
+    private String ip;
 
+
+    public Usuario(String nombre, String ip) {
+        this.nombre = nombre;
+        this.ip = ip;
+    }
     public Usuario(String nombre) {
         this.nombre = nombre;
     }
@@ -17,6 +22,16 @@ public class Usuario {
         this.nombre = nombre;
     }
     
+    public String getIp() {
+        if (ip=="0"){
+            return "127.0.0.1";}
+        else{
+            return ip;
+        }
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
 }
-
-

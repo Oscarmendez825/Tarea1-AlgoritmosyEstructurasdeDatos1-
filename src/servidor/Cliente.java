@@ -16,11 +16,15 @@ public class Cliente extends javax.swing.JFrame {
     static DataOutputStream datossalida;
     //Creacion de atributos y objetos para llamar a clase usuario
     String Nombre = JOptionPane.showInputDialog("Digite su Nombre: ");
-    Usuario Nombre1 = new Usuario(Nombre);
+    static String ip = JOptionPane.showInputDialog("Digite la ip del servidor: \n Si desea ejecutar todo desde una misma pc por favor digite 0: ");
+    //Usuario Nombre1 = new Usuario(Nombre);
+    Usuario direccion = new Usuario(Nombre,ip);
+    
+    
     public Cliente() {
         initComponents();
+        ip = direccion.getIp();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -32,7 +36,8 @@ public class Cliente extends javax.swing.JFrame {
         cuadromensaje = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         botonenviar = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(935, 580));
@@ -49,9 +54,9 @@ public class Cliente extends javax.swing.JFrame {
         jScrollPane1.setViewportView(cuadropantalla);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(10, 50, 900, 260);
+        jScrollPane1.setBounds(10, 50, 900, 250);
         getContentPane().add(cuadromensaje);
-        cuadromensaje.setBounds(10, 330, 650, 160);
+        cuadromensaje.setBounds(20, 370, 650, 130);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/LOGO.png"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -66,9 +71,14 @@ public class Cliente extends javax.swing.JFrame {
         getContentPane().add(botonenviar);
         botonenviar.setBounds(830, 370, 80, 40);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/30413hd.jpg"))); // NOI18N
-        getContentPane().add(jLabel3);
-        jLabel3.setBounds(-10, 0, 940, 530);
+        jLabel4.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jLabel4.setText("Write your message here.....");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(20, 330, 610, 40);
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/30413hd.jpg"))); // NOI18N
+        getContentPane().add(jLabel5);
+        jLabel5.setBounds(0, 0, 930, 540);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -77,15 +87,16 @@ public class Cliente extends javax.swing.JFrame {
         try{
             String mensajesalida = "";
             mensajesalida = cuadromensaje.getText().trim();
-            datossalida.writeUTF(Nombre1.getNombre()+": "+mensajesalida);//se envia el mensaje del server al cliente
+            cuadromensaje.setText("");
+            cuadropantalla.setText("Me: " + mensajesalida);//Desplego en pantalla el mensaje que voy a enviar
+            datossalida.writeUTF(direccion.getNombre()+": "+mensajesalida);//se envia el mensaje del server al cliente
         }catch (Exception e){
 
         }
     }//GEN-LAST:event_botonenviarActionPerformed
 
-
     public static void main(String args[]) {
- 
+
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -103,7 +114,7 @@ public class Cliente extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
+  
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -111,14 +122,18 @@ public class Cliente extends javax.swing.JFrame {
             }
         });
         try{
-            puerto = new Socket("127.0.0.1",1201);//Esta IP se usa cuando se ejecutan el cliente y el servidor en la misma computadora
+           
+            
+            puerto = new Socket(ip,1201);//Se le pasa el parametro de ip ingresado
+            
             datosentrada = new DataInputStream(puerto.getInputStream());
             datossalida = new DataOutputStream(puerto.getOutputStream());
             String mensajeentrada="";
             while(!mensajeentrada.equals("exit")){
                 mensajeentrada = datosentrada.readUTF();
+                cuadropantalla.setText("\n");
                 cuadropantalla.setText(cuadropantalla.getText().trim()+mensajeentrada);
-            
+                
             }
         
         }catch (Exception e){
@@ -132,7 +147,8 @@ public class Cliente extends javax.swing.JFrame {
     private static javax.swing.JTextArea cuadropantalla;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
