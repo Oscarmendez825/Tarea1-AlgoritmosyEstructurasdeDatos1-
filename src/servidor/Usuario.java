@@ -1,7 +1,7 @@
 
-package clienteservidor;
-    
-    
+package servidor;
+
+
 public class Usuario {
     private String nombre;
 
@@ -18,3 +18,5 @@ public class Usuario {
     }
     
 }
+
+

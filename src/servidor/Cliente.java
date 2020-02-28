@@ -1,14 +1,16 @@
 
-package clienteservidor;
+package servidor;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 import javax.swing.JOptionPane;
 
-
+/**
+ *
+ * @author oscar
+ */
 public class Cliente extends javax.swing.JFrame {
-
     static Socket puerto;
     static DataInputStream datosentrada;
     static DataOutputStream datossalida;
@@ -24,19 +26,36 @@ public class Cliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         cuadropantalla = new javax.swing.JTextArea();
         cuadromensaje = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
         botonenviar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(935, 580));
+        getContentPane().setLayout(null);
 
-        jPanel1.setBackground(new java.awt.Color(0, 204, 204));
+        jLabel2.setFont(new java.awt.Font("Orbitron", 1, 24)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("ServMess(Messenger Service)");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(10, 10, 870, 40);
 
         cuadropantalla.setColumns(20);
         cuadropantalla.setRows(5);
         jScrollPane1.setViewportView(cuadropantalla);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(10, 50, 900, 260);
+        getContentPane().add(cuadromensaje);
+        cuadromensaje.setBounds(10, 330, 650, 160);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/LOGO.png"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(550, 320, 280, 200);
 
         botonenviar.setText("SEND");
         botonenviar.addActionListener(new java.awt.event.ActionListener() {
@@ -44,44 +63,12 @@ public class Cliente extends javax.swing.JFrame {
                 botonenviarActionPerformed(evt);
             }
         });
+        getContentPane().add(botonenviar);
+        botonenviar.setBounds(830, 370, 80, 40);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cuadromensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonenviar)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1))
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cuadromensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
-                    .addComponent(botonenviar))
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/30413hd.jpg"))); // NOI18N
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(-10, 0, 940, 530);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -90,21 +77,16 @@ public class Cliente extends javax.swing.JFrame {
         try{
             String mensajesalida = "";
             mensajesalida = cuadromensaje.getText().trim();
-            datossalida.writeUTF(Nombre1.getNombre()+": "+mensajesalida);
+            datossalida.writeUTF(Nombre1.getNombre()+": "+mensajesalida);//se envia el mensaje del server al cliente
+        }catch (Exception e){
+
         }
-        catch (Exception e){
-        
-        }
-        
     }//GEN-LAST:event_botonenviarActionPerformed
 
 
     public static void main(String args[]) {
+ 
 
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -121,7 +103,6 @@ public class Cliente extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -129,7 +110,6 @@ public class Cliente extends javax.swing.JFrame {
                 new Cliente().setVisible(true);
             }
         });
-        
         try{
             puerto = new Socket("127.0.0.1",1201);//Esta IP se usa cuando se ejecutan el cliente y el servidor en la misma computadora
             datosentrada = new DataInputStream(puerto.getInputStream());
@@ -144,16 +124,15 @@ public class Cliente extends javax.swing.JFrame {
         }catch (Exception e){
         
         }
-        
-        
-        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonenviar;
     private javax.swing.JTextField cuadromensaje;
     private static javax.swing.JTextArea cuadropantalla;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
