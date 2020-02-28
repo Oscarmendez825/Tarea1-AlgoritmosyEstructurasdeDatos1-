@@ -6,24 +6,22 @@ import java.io.DataOutputStream;
 import java.net.Socket;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author oscar
- */
+
 public class Cliente extends javax.swing.JFrame {
     static Socket puerto;
     static DataInputStream datosentrada;
     static DataOutputStream datossalida;
     //Creacion de atributos y objetos para llamar a clase usuario
-    String Nombre = JOptionPane.showInputDialog("Digite su Nombre: ");
-    static String ip = JOptionPane.showInputDialog("Digite la ip del servidor: \n Si desea ejecutar todo desde una misma pc por favor digite 0: ");
-    //Usuario Nombre1 = new Usuario(Nombre);
-    Usuario direccion = new Usuario(Nombre,ip);
-    
+    String Nombre = JOptionPane.showInputDialog("Digite su Nombre: ");//Valor que brinda el valor a la clase Usuario del nombre
+    static String ip = JOptionPane.showInputDialog("Digite la ip del servidor: \n Si desea ejecutar todo desde una misma pc por favor digite 0: ");//Variable estatica que permite pasar como parametro la ip a la clase Usuario
+    AsignarIpNombre Nombre1 = new AsignarIpNombre(Nombre);
+    AsignarIpNombre direccion = new AsignarIpNombre(Nombre,ip);
+    UsuarioClienteServidor2 tipo = new UsuarioClienteServidor2();
     
     public Cliente() {
         initComponents();
         ip = direccion.getIp();
+        tipo.TipodeUsuario();
     }
 
     @SuppressWarnings("unchecked")
@@ -95,6 +93,7 @@ public class Cliente extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonenviarActionPerformed
 
+
     public static void main(String args[]) {
 
 
@@ -114,7 +113,7 @@ public class Cliente extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Cliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-  
+
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -124,7 +123,7 @@ public class Cliente extends javax.swing.JFrame {
         try{
            
             
-            puerto = new Socket(ip,1201);//Se le pasa el parametro de ip ingresado
+            puerto = new Socket(ip,1201);//Se le pasa el parametro de ip
             
             datosentrada = new DataInputStream(puerto.getInputStream());
             datossalida = new DataOutputStream(puerto.getOutputStream());

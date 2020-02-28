@@ -11,19 +11,21 @@ import javax.swing.JOptionPane;
 
 
 public class Servidor1 extends javax.swing.JFrame {
+    //Variables estaticas para poder hacer la conexion cliente-servidor
     static ServerSocket puerto1;
     static Socket puerto2;
     static DataInputStream datosentrada;
     static DataOutputStream datossalida;
-     //Creacion de atributos y objetos para llamar a clase usuario
+    //Creacion de atributos y objetos para llamar a clase usuario y para indicar cuales el tipo de usuario inicializado
+    //si es cliente o servidor
     String Nombre = JOptionPane.showInputDialog("Digite su Nombre: ");
-    Usuario Nombre1 = new Usuario(Nombre);
-    
+    AsignarIpNombre Nombre1 = new AsignarIpNombre(Nombre);
+    UsuarioClienteServidor1 tipo = new UsuarioClienteServidor1();
     
     
     public Servidor1() {
         initComponents();
-
+        tipo.TipodeUsuario();//Llamada a la clase que indica si es Cliente o Servidor
     }
 
 
@@ -91,6 +93,7 @@ public class Servidor1 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonenviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonenviarActionPerformed
+        //ENVIO DEL MENSAJE AL CLIENTE
         try{
             String mensajesalida = "";
             mensajesalida = cuadromensaje.getText().trim();

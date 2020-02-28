@@ -1,16 +1,16 @@
 
 package servidor;
 
-public class Usuario{
+
+public class AsignarIpNombre {
     private String nombre;
     private String ip;
 
-
-    public Usuario(String nombre, String ip) {
+    public AsignarIpNombre(String nombre, String ip) {
         this.nombre = nombre;
         this.ip = ip;
     }
-    public Usuario(String nombre) {
+    public AsignarIpNombre(String nombre) {
         this.nombre = nombre;
     }
 
@@ -29,9 +29,6 @@ public class Usuario{
             return ip;
         }
     }
+}    
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
 
-}
